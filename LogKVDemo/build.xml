@@ -1,0 +1,127 @@
+<project name="LogKVDemo" default="deploy" basedir=".">
+
+    <property name="env" value="DEV" />
+    <property name="app.name" value="LogKVDemo" />
+    <property name="app.dir" value="${basedir}" />
+    <property name="dist.dir" value="${app.dir}/dist" />
+    <property name="lib.dir" value="${app.dir}/lib" />
+	<property name="common.src.dir" value="${app.dir}/main/src/common" />
+    <property name="server.src.dir" value="${app.dir}/main/src/server" />
+	<property name="client.src.dir" value="${app.dir}/main/src/client" />
+    <property name="conf.dir" value="${app.dir}/main/conf" />
+    <property name="resource.dir" value="${app.dir}/main/resource" />
+    <property name="webapp.dir" value="${app.dir}/main/webapp" />
+	<property name="common.classes.dir" value="${dist.dir}/classes/common" />
+    <property name="server.classes.dir" value="${dist.dir}/classes/server" />
+	<property name="client.classes.dir" value="${dist.dir}/classes/client" />
+	<property name="client.jar.dir" value="${dist.dir}/${env}/${app.name}/lib" />
+	
+    <path id="build.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    	<dirset file="${common.classes.dir}"></dirset>
+    </path>
+
+    <target name="prepare">
+    	<mkdir dir="${common.classes.dir}" />
+        <mkdir dir="${server.classes.dir}" />
+    	<mkdir dir="${client.classes.dir}" />
+    	<mkdir dir="${client.jar.dir}" />
+    </target>
+
+    <target name="compile-common" depends="prepare">
+        <javac srcdir="${common.src.dir}" destdir="${common.classes.dir}" debug="on" deprecation="on" optimize="off" includeantruntime="false" includes="**" source="1.5" target="1.5">
+            <classpath refid="build.classpath" />
+        </javac>
+    </target>
+	
+    <target name="compile-server" depends="prepare">
+        <javac srcdir="${server.src.dir}" destdir="${server.classes.dir}" debug="on" deprecation="on" optimize="off" includeantruntime="false" includes="**" source="1.5" target="1.5">
+            <classpath refid="build.classpath" />
+        </javac>
+    </target>
+    
+    <target name="compile-client" depends="prepare">
+        <javac srcdir="${client.src.dir}" destdir="${client.classes.dir}" debug="on" deprecation="on" optimize="off" includeantruntime="false" includes="**" source="1.5" target="1.5">
+            <classpath refid="build.classpath" />
+        </javac>
+    </target>
+	
+    <target name="copyConf" depends="compile-common, compile-server, compile-client">  
+        <copy file="${conf.dir}/env/${env}/log4j.properties" todir="${server.classes.dir}" />
+        <copy file="${conf.dir}/env/${env}/JMS.properties" todir="${server.classes.dir}" />
+    	<copy file="${conf.dir}/env/${env}/LogKVDemo.properties" todir="${server.classes.dir}" />
+    </target>
+   
+    <target name="deploy" depends="cleanConf, copyConf">	
+    	<mkdir dir="${dist.dir}/${env}/${app.name}" />
+        <copy todir="${dist.dir}/${env}/${app.name}/">
+            <fileset dir="${webapp.dir}" />
+        </copy>  
+        <copy todir="${dist.dir}/${env}/${app.name}/WEB-INF/classes">
+        	<fileset dir="${common.classes.dir}" />
+            <fileset dir="${server.classes.dir}" />
+        </copy>
+        <copy file="${conf.dir}/j2ee/web.xml" todir="${dist.dir}/${env}/${app.name}/WEB-INF" />
+    	<copy todir="${dist.dir}/${env}/${app.name}/WEB-INF/lib">
+            <fileset dir="${lib.dir}/activemq-5.7.0">
+            	<include name="**/*.jar" />
+            </fileset>
+            <fileset dir="${lib.dir}/jfreechart-1.0.14">
+            	<include name="**/*.jar" />
+            </fileset>
+            <fileset dir="${lib.dir}/jung-1.3">
+            	<include name="**/*.jar" />
+            </fileset>
+    	</copy>
+        <copy todir="${client.classes.dir}">
+            <fileset dir="${client.src.dir}">
+                <include name="**/*.png" />
+            	<include name="**/*.gif" />
+            </fileset>
+        </copy>
+		<copy todir="${dist.dir}/${env}/${app.name}/${app.name}-client">
+			<fileset dir="${common.classes.dir}" />
+			<fileset dir="${client.classes.dir}" />
+			<fileset dir="${basedir}/libclasses/jfreechart-1.0.14/jcommon-1.0.17" />
+			<fileset dir="${basedir}/libclasses/jfreechart-1.0.14/jfreechart-1.0.14" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/collections-generic-4.01" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/colt-1.2.0" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/concurrent-1.3.4" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/jung-algorithms-2.0.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/jung-api-2.0.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/jung-graph-impl-2.0.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/jung-io-2.0.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/jung-jai-2.0.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/jung-visualization-2.0.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/stax-api-1.0.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/vecmath-1.3.1" />
+			<fileset dir="${basedir}/libclasses/jung-1.3/wstx-asl-3.2.6" />		
+			<fileset dir="${basedir}/libclasses/swing/jcalendar" />
+		</copy>
+        <copy todir="${client.jar.dir}">
+            <fileset dir="${lib.dir}/jfreechart-1.0.14">
+            	<include name="**/*.jar" />
+            </fileset>
+            <fileset dir="${lib.dir}/jung-1.3">
+            	<include name="**/*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="cleanConf">
+        <delete file="${server.classes.dir}/log4j.properties" />
+        <delete file="${server.classes.dir}/JMS.properties" />
+    	<delete file="${server.classes.dir}/LogKVDemo.properties" />
+    </target>
+
+    <target name="clean">
+    	<delete dir="${common.classes.dir}" />
+        <delete dir="${server.classes.dir}" />
+    	<delete dir="${client.classes.dir}" />
+        <delete dir="${dist.dir}/${env}" />
+    </target>
+
+</project>
+
