@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for ip in `cat workers`; do
+        echo "starting node $ip ...";
+        ssh $ip "cassandra4logkv/apache-cassandra-1.0.6/bin/cassandra";
+        echo "OK";
+done

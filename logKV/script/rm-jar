@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for ip in `cat ./workers`; do
+	echo "removing the jar files in $ip ...";
+	ssh $ip "cd newlogkv; pwd; rm *.jar";
+	echo "all jars are removed.";
+done

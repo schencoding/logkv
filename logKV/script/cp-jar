@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd $HOME/newlogkv
+
+for ip in `cat ./workers`; do
+	cd $HOME/newlogkv;
+	echo "copy jar to $ip ..."
+	scp *.jar $ip:./newlogkv
+	echo "copy finished"
+done

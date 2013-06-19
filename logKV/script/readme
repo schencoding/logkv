@@ -1,0 +1,10 @@
+./stop-cass
+cd updatetoken
+./update.sh 
+cd ..
+./start-cass
+./create-table
+./rm-jar
+./rm-config
+./cp-jar
+./cp-config

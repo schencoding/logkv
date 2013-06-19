@@ -1,0 +1,16 @@
+#!/bin/sh
+
+for ip in `cat workers`; do
+
+        echo "killing node $ip ...";
+        ssh $ip "pgrep -u `whoami` -f cassandra | xargs kill -9; fuser -k 9160/tcp";
+        ssh $ip "fuser -k 9160/tcp"
+        echo "OK";
+done
+
+CASS_HOME="$HOME/cassandra4logkv/apache-cassandra-1.0.6";
+for ip in `cat workers`; do
+        echo "going to removing database in $ip";
+        ssh $ip "rm -r $HOME/cassandra4logkv/database"
+        echo "Deleted"
+done

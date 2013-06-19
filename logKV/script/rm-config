@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for ip in `cat ./workers`; do
+	echo "removing the config file in $ip ...";
+	ssh $ip "cd newlogkv; pwd; rm config.properties";
+	echo "config.properties is removed.";
+done

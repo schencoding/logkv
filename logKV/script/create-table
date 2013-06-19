@@ -1,0 +1,2 @@
+
+$HOME/cassandra4logkv/apache-cassandra-1.0.6/bin/cassandra-cli -h 16.158.159.16 -f create-table-cmd

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd $HOME/newlogkv
+
+for ip in `cat ./workers`; do
+	cd $HOME/newlogkv;
+	echo "copy config.properties to $ip ..."
+	scp config.properties $ip:./newlogkv
+	echo "copy finished"
+done

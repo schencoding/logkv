@@ -1,0 +1,13 @@
+create keyspace logKV;
+use logKV;
+create column family KV_CF_0;
+create column family KV_CF_1;
+create column family KV_CF_2;
+create column family KV_CF_3;
+create column family KV_CF_4;
+create column family KV_CF_5;
+create column family KV_CF_6;
+create column family KV_CF_7;
+create column family KV_CF_8;
+create column family KV_CF_9;
+exit;

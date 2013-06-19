@@ -1,0 +1,22 @@
+#!/usr/bin/python
+import sys
+
+if(len(sys.argv)>2):
+	num=int(sys.argv[1])
+	i=int(sys.argv[2])
+else:
+	num=int(raw_input("How many nodes are in you cluster? "))
+        i=int(raw_input("Node number? "))
+#for i in range(0,num):
+
+print 'token %d:%d' %(i,(i*(2**127)/num))
+f = open('cassandra.yaml', 'r')
+newLines = ''
+for line in f.readlines():
+	if (line.find('initial_token:')>=0):
+       		line='initial_token: '+str(i*(2**127)/num)+'\n'
+	newLines += line
+f.close()
+f = open('cassandra.yaml', 'w')
+f.write(newLines)
+f.close() 

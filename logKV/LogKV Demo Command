@@ -1,0 +1,16 @@
+1. start Active MQ
+/home/caoz/apache-activemq-5.7.0/bin/linux-x86-64/activemq start
+/home/caoz/apache-activemq-5.7.0/bin/linux-x86-64/activemq stop
+
+2. build by ANT to /home/hplcchina/workspace/LogKVDemo/dist
+
+3. edit configuration file
+/home/hplcchina/workspace/LogKVDemo/main/conf/env/DEV/LogKVDemo.properties
+/home/hplcchina/workspace/LogKVDemo/main/conf/env/DEV/JMS.properties
+
+4. edit queue name in /home/hplcchina/workspace/LogKVDemo/main/conf/j2ee/web.xml
+
+5. config tomcat server.xml for LogKVDemo web application
+/home/caoz/apache-tomcat-7.0.33/conf/server.xml
+
+6 copy dist/DEV/LogKVDemo to /home/caoz/newlogkv/LogKVDemo
