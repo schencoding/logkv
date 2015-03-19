@@ -1,0 +1,7 @@
+Event log processing and analysis play a key role in applications ranging from security management, IT trouble shooting, to user behavior analysis. Recent years have seen a rapid growth in system
+scales and the corresponding rapid increase in the amount of log event data.  At the same time, as logs are found to be a valuable information source, log analysis tasks have become more sophisticated
+demanding both interactive exploratory query processing and batch computation. Desirable query types include selection with time ranges and value filtering criteria, join within time windows, join between
+log data and reference tables, and various aggregation types.  In such a situation, parallel solutions are necessary, but existing parallel and distributed solutions either support limited query types or
+perform only batch computations on logs.  With a system called LogKV, this paper reports a first study of using Key-Value stores to support log processing and analysis, exploiting the scalability, reliability,
+and efficiency commonly found in Key-Value store systems.  LogKV contains a number of unique techniques that are needed to handle log data in terms of event ingestion, load balancing, storage optimization, and query processing.  Preliminary experimental results
+show that LogKV is a promising solution.
